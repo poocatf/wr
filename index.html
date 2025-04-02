@@ -91,28 +91,17 @@
             height: auto;
             display: none;
         }
-        .info-text {
-            width: 100%;
-            text-align: center;
-            margin-bottom: 20px;
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
+        .info-text, .credits-text, .discord-link-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px; /* Space between images */
         }
-        .info-text img {
+        .info-text img, .credits-text img, .discord-link-container img {
             width: 300px;
             height: auto;
         }
         .credits-text {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-            cursor: pointer;
-        }
-        .credits-text img {
-            width: 300px;
-            height: auto;
             cursor: pointer;
         }
         .credits-screen {
@@ -131,17 +120,6 @@
             cursor: pointer;
             margin-top: 20px;
         }
-        .discord-link-container {
-            display: inline-flex;
-            align-items: center;
-            margin-top: 20px;
-        }
-        .discord-link-container img {
-            width: 50px;
-            height: auto;
-            margin-left: 10px;
-            cursor: pointer;
-        }
         .confirmation {
             display: none;
             position: fixed;
@@ -152,7 +130,7 @@
             z-index: 1000;
         }
         .confirmation img#spoilerImage {
-            width: 400px; /* make it huge */
+            width: 400px;
             height: auto;
         }
         .confirmation div {
@@ -174,28 +152,31 @@
     </style>
 </head>
 <body>
-    <div class="info-text">
-        <img src="infotext.png" alt="Information Text">
-    </div>
-    <!-- Add the credits link below infotext -->
-    <div class="credits-text" onclick="toggleCreditsScreen()">
-        <img src="credits.png" alt="Credits">
-    </div>
-
-    <!-- Credits screen (hidden until clicked) -->
-    <div class="credits-screen" id="creditsScreen">
-        <img src="creditscreen.png" alt="Credits Screen">
-    </div>
-
-    <div class="torches-container">
-        <div class="torch" id="torchLeft">
-            <img src="torches.png" class="torch">
-        </div>
-        <div class="torch" id="torchRight">
-            <img src="torches.png" class="torch">
-        </div>
-    </div>
     <div class="container">
+        <div class="info-text">
+            <img src="infotext.png" alt="Information Text">
+            <div class="credits-text" onclick="toggleCreditsScreen()">
+                <img src="credits.png" alt="Credits">
+            </div>
+            <div class="discord-link-container" onclick="window.open('https://discord.gg/yfgWKrsZ93', '_blank')">
+                <img src="discord.png" alt="Join our Discord!">
+            </div>
+        </div>
+
+        <!-- Credits screen (hidden until clicked) -->
+        <div class="credits-screen" id="creditsScreen">
+            <img src="creditscreen.png" alt="Credits Screen">
+        </div>
+
+        <div class="torches-container">
+            <div class="torch" id="torchLeft">
+                <img src="torches.png" class="torch">
+            </div>
+            <div class="torch" id="torchRight">
+                <img src="torches.png" class="torch">
+            </div>
+        </div>
+
         <input type="text" class="message-input" placeholder="..." onkeydown="handleEnter(event)">
         <img src="wraith.png" class="locked-icon" id="wraithImage" onclick="handleClick()">
         <img src="success.png" class="success" id="successImage">
@@ -203,11 +184,6 @@
 
         <!-- View all codes text -->
         <div class="view-all-codes" onclick="toggleCodesList()">View All Codes</div>
-
-        <!-- Discord link (image) next to Credits -->
-        <div class="discord-link-container" onclick="window.open('https://discord.gg/yfgWKrsZ93', '_blank')">
-            <img src="discord.png" alt="Join our Discord!">
-        </div>
 
         <!-- Confirmation popup -->
         <div class="confirmation" id="confirmationPopup">
@@ -240,12 +216,10 @@
             const spoilerImage = document.getElementById('spoilerImage');
             
             if (codesList.style.display === 'block') {
-                // If the codes list is already shown, hide everything
                 codesList.style.display = 'none';
                 confirmationPopup.style.display = 'none';
-                spoilerImage.style.display = 'none'; // Hide spoiler image
+                spoilerImage.style.display = 'none'; 
             } else {
-                // Show the confirmation popup and spoiler image
                 confirmationPopup.style.display = 'block';
                 spoilerImage.style.display = 'block';
             }
@@ -257,8 +231,8 @@
 
         function revealCodes() {
             const codesList = document.getElementById('codesList');
-            codesList.style.display = 'block'; // Show the codes
-            hideConfirmation(); // Hide the confirmation popup
+            codesList.style.display = 'block'; 
+            hideConfirmation(); 
         }
 
         function handleClick() {
