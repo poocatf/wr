@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wraith</title>
+    <link rel="icon" href="favicon.png">
+    <style>
+        @font-face {
+            font-family: 'Pusab';
+            src: url('Pusab.ttf') format('truetype');
+        }
+        body {
+            background-color: #1a0e22;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+        }
+        .container {
+            position: relative;
+            text-align: center;
+        }
+        .message-input {
+            font-family: 'Pusab', sans-serif;
+            font-size: 32px;
+            color: white;
+            text-shadow: 4px 4px 0px black, -4px -4px 0px black, -4px 4px 0px black, 4px -4px 0px black;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid white;
+            text-align: center;
+            width: 250px;
+            outline: none;
+            position: absolute;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .torches-container {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            pointer-events: none;
+            position: relative;
+        }
+        .torch {
+            width: 100px;
+            height: auto;
+            filter: drop-shadow(0px 0px 20px purple);
+        }
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: purple; /* Make the particles purple */
+            animation: fall 2s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                top: 0;
+                opacity: 1;
+            }
+            100% {
+                top: 100px; /* Adjust this to make the particle fall further */
+                opacity: 0; /* Make the particle fade out as it falls */
+            }
+        }
+        .locked-icon {
+            margin-top: 20px;
+            width: 200px;
+            height: auto;
+            filter: drop-shadow(0px 0px 20px #a35aff);
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .locked-icon:hover {
+            transform: scale(0.9); /* Make the image smaller when hovered */
+        }
+        .success, .error {
+            position: absolute;
+            top: 100px; /* Adjust position for centering */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: auto;
+            display: none; /* Start hidden */
+        }
+        .info-text {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 20px;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .info-text img {
+            width: 300px; /* Adjust the size as needed */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-text">
+        <img src="infotext.png" alt="Information Text">
+    </div>
+    <div class="torches-container">
+        <div class="torch" id="torchLeft">
+            <img src="torches.png" class="torch">
+            <!-- Particles falling from the left torch -->
+        </div>
+        <div class="torch" id="torchRight">
+            <img src="torches.png" class="torch">
+            <!-- Particles falling from the right torch -->
+        </div>
+    </div>
+    <div class="container">
+        <input type="text" class="message-input" placeholder="..." onkeydown="handleEnter(event)">
+        <img src="wraith.png" class="locked-icon" id="wraithImage" onclick="handleClick()">
+        <img src="success.png" class="success" id="successImage">
+        <img src="error.png" class="error" id="errorImage">
+    </div>
+    <script>
+        function createParticle(torchId) {
+            const torch = document.getElementById(torchId);
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particle.style.left = `${Math.random() * 80 + 10}%`; // Randomly spawn the particle across the torch
+            particle.style.top = `${torch.offsetHeight + 5}px`; // Make particles spawn below the torch image
+            torch.appendChild(particle);
+            
+            // Remove the particle after the animation ends
+            setTimeout(() => {
+                particle.remove();
+            }, 2000); // Remove after animation duration
+        }
+
+        // Continuously spawn particles from each torch
+        setInterval(() => {
+            createParticle('torchLeft');
+            createParticle('torchRight');
+        }, 200); // Adjust frequency of particle spawning
+
+        function handleClick() {
+            let inputText = document.querySelector('.message-input').value.trim().toLowerCase();
+            let successImage = document.getElementById('successImage');
+            let errorImage = document.getElementById('errorImage');
+            let wraithImage = document.getElementById('wraithImage');
+            
+            // List of valid inputs
+            const validInputs = [
+                'robtopisnice', 'skibidi', 'checksteam', 'fireinthehole', 'wateronthehill',
+                'wellmet', 'bussin', 'thickofit', 'touchgrass', 'backondash', 'key', 'geometry',
+                'citadel', 'retrospective', 'iaminpain', 'spacegauntlet', 'ruins', 'cheatcodes',
+                'backstreetboy', 'noelelectra', 'gd2025', 'duckstep', 'skylinept2', 'boogie',
+                'buttonmasher', 'ncsalbum', 'gullible'
+            ];
+
+            // Check if input is in the valid list
+            if (validInputs.includes(inputText)) {
+                successImage.style.display = 'block';
+                errorImage.style.display = 'none'; // hide error
+                
+                // Change wraith image to brighter for 1 second (correct input)
+                wraithImage.style.filter = 'brightness(130%)'; // Apply brighter effect
+                setTimeout(() => {
+                    wraithImage.style.filter = 'none'; // Reset back to normal
+                }, 1000); // 1 second
+            } else {
+                errorImage.style.display = 'block';
+                successImage.style.display = 'none'; // hide success
+                
+                // Change wraith image to darker for 1 second (incorrect input)
+                wraithImage.style.filter = 'brightness(50%)'; // Apply darker effect
+                setTimeout(() => {
+                    wraithImage.style.filter = 'none'; // Reset back to normal
+                }, 1000); // 1 second
+            }
+
+            // Keep images visible for 2 seconds, then hide them
+            setTimeout(() => {
+                successImage.style.display = 'none';
+                errorImage.style.display = 'none';
+            }, 2000); // Keep visible for 2 seconds
+        }
+    </script>
+</body>
+</html>
