@@ -191,7 +191,7 @@
         <img src="error.png" class="error" id="errorImage">
 
         <!-- View all codes text -->
-        <div class="view-all-codes" onclick="showConfirmation()">View All Codes</div>
+        <div class="view-all-codes" onclick="toggleCodesList()">View All Codes</div>
 
         <!-- Confirmation popup -->
         <div class="confirmation" id="confirmationPopup">
@@ -218,8 +218,21 @@
             }
         }
 
-        function showConfirmation() {
-            document.getElementById('confirmationPopup').style.display = 'block';
+        function toggleCodesList() {
+            const codesList = document.getElementById('codesList');
+            const confirmationPopup = document.getElementById('confirmationPopup');
+            const spoilerImage = document.getElementById('spoilerImage');
+            
+            if (codesList.style.display === 'block') {
+                // If the codes list is already shown, hide everything
+                codesList.style.display = 'none';
+                confirmationPopup.style.display = 'none';
+                spoilerImage.style.display = 'none'; // Hide spoiler image
+            } else {
+                // Show the confirmation popup and spoiler image
+                confirmationPopup.style.display = 'block';
+                spoilerImage.style.display = 'block';
+            }
         }
 
         function hideConfirmation() {
