@@ -131,6 +131,15 @@
             cursor: pointer;
             margin-top: 20px;
         }
+        .discord-link {
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .discord-link img {
+            width: 50px;
+            height: auto;
+            margin-left: 10px;
+        }
         .confirmation {
             display: none;
             position: fixed;
@@ -192,6 +201,11 @@
 
         <!-- View all codes text -->
         <div class="view-all-codes" onclick="toggleCodesList()">View All Codes</div>
+
+        <!-- Discord link (image) -->
+        <div class="discord-link" onclick="window.open('https://discord.gg/yfgWKrsZ93', '_blank')">
+            <img src="discord.png" alt="Join our Discord!">
+        </div>
 
         <!-- Confirmation popup -->
         <div class="confirmation" id="confirmationPopup">
@@ -283,4 +297,3 @@
     </script>
 </body>
 </html>
-
