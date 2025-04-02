@@ -59,7 +59,7 @@
             position: absolute;
             width: 10px;
             height: 10px;
-            background-color: purple; 
+            background-color: purple;
             animation: fall 2s linear infinite;
         }
         @keyframes fall {
@@ -68,8 +68,8 @@
                 opacity: 1;
             }
             100% {
-                top: 100px; 
-                opacity: 0; 
+                top: 100px;
+                opacity: 0;
             }
         }
         .locked-icon {
@@ -84,7 +84,7 @@
         }
         .success, .error {
             position: absolute;
-            top: 100px; 
+            top: 100px;
             left: 50%;
             transform: translateX(-50%);
             width: 300px;
@@ -104,20 +104,84 @@
             width: 300px;
             height: auto;
         }
+        .credits-text {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+        .credits-text img {
+            width: 300px;
+            height: auto;
+            cursor: pointer;
+        }
+        .credits-screen {
+            display: none;
+            width: 100%;
+            text-align: center;
+        }
+        .credits-screen img {
+            width: 600px;
+            height: auto;
+        }
+        .view-all-codes {
+            font-family: 'Pusab', sans-serif;
+            font-size: 24px;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .confirmation {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 1000;
+        }
+        .confirmation img#spoilerImage {
+            width: 400px; /* make it huge */
+            height: auto;
+        }
+        .confirmation div {
+            margin-top: 20px;
+        }
+        .confirmation img {
+            cursor: pointer;
+            width: 100px;
+            height: auto;
+            margin: 10px;
+        }
+        .codes-list {
+            display: none;
+            margin-top: 20px;
+            font-family: 'Pusab', sans-serif;
+            color: white;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <div class="info-text">
         <img src="infotext.png" alt="Information Text">
     </div>
+    <!-- Add the credits link below infotext -->
+    <div class="credits-text" onclick="toggleCreditsScreen()">
+        <img src="credits.png" alt="Credits">
+    </div>
+
+    <!-- Credits screen (hidden until clicked) -->
+    <div class="credits-screen" id="creditsScreen">
+        <img src="creditscreen.png" alt="Credits Screen">
+    </div>
+
     <div class="torches-container">
         <div class="torch" id="torchLeft">
             <img src="torches.png" class="torch">
-            
         </div>
         <div class="torch" id="torchRight">
             <img src="torches.png" class="torch">
-            
         </div>
     </div>
     <div class="container">
@@ -125,34 +189,54 @@
         <img src="wraith.png" class="locked-icon" id="wraithImage" onclick="handleClick()">
         <img src="success.png" class="success" id="successImage">
         <img src="error.png" class="error" id="errorImage">
+
+        <!-- View all codes text -->
+        <div class="view-all-codes" onclick="showConfirmation()">View All Codes</div>
+
+        <!-- Confirmation popup -->
+        <div class="confirmation" id="confirmationPopup">
+            <img src="spoiler.png" alt="Spoiler" id="spoilerImage">
+            <div>
+                <img src="nuhuh.png" alt="No" onclick="hideConfirmation()">
+                <img src="sure.png" alt="Yes" onclick="revealCodes()">
+            </div>
+        </div>
+
+        <!-- List of codes (hidden until confirmed) -->
+        <div class="codes-list" id="codesList">
+            <p>'robtopisnice', 'skibidi', 'checksteam', 'fireinthehole', 'wateronthehill', 'wellmet', 'bussin', 'thickofit', 'touchgrass', 'backondash', 'key', 'geometry', 'citadel', 'retrospective', 'iaminpain', 'spacegauntlet', 'ruins', 'cheatcodes', 'buttonmasher', 'ncsalbum', 'gullible'</p>
+        </div>
     </div>
+
     <script>
-        function createParticle(torchId) {
-            const torch = document.getElementById(torchId);
-            const particle = document.createElement('div');
-            particle.classList.add('particle');
-            particle.style.left = `${Math.random() * 80 + 10}%`;
-            particle.style.top = `${torch.offsetHeight + 5}px`; 
-            torch.appendChild(particle);
-            
-            
-            setTimeout(() => {
-                particle.remove();
-            }, 2000);
+        function toggleCreditsScreen() {
+            const creditsScreen = document.getElementById('creditsScreen');
+            if (creditsScreen.style.display === 'none' || creditsScreen.style.display === '') {
+                creditsScreen.style.display = 'block';
+            } else {
+                creditsScreen.style.display = 'none';
+            }
         }
 
-        
-        setInterval(() => {
-            createParticle('torchLeft');
-            createParticle('torchRight');
-        }, 200);
+        function showConfirmation() {
+            document.getElementById('confirmationPopup').style.display = 'block';
+        }
+
+        function hideConfirmation() {
+            document.getElementById('confirmationPopup').style.display = 'none';
+        }
+
+        function revealCodes() {
+            const codesList = document.getElementById('codesList');
+            codesList.style.display = 'block'; // Show the codes
+            hideConfirmation(); // Hide the confirmation popup
+        }
 
         function handleClick() {
             let inputText = document.querySelector('.message-input').value.trim().toLowerCase();
             let successImage = document.getElementById('successImage');
             let errorImage = document.getElementById('errorImage');
             let wraithImage = document.getElementById('wraithImage');
-            
             
             const validInputs = [
                 'robtopisnice', 'skibidi', 'checksteam', 'fireinthehole', 'wateronthehill',
@@ -162,28 +246,22 @@
                 'buttonmasher', 'ncsalbum', 'gullible'
             ];
 
-            
             if (validInputs.includes(inputText)) {
                 successImage.style.display = 'block';
-                errorImage.style.display = 'none';
-                
-                
+                errorImage.style.display = 'none'; 
                 wraithImage.style.filter = 'brightness(130%)';
                 setTimeout(() => {
-                    wraithImage.style.filter = 'none';
+                    wraithImage.style.filter = 'none'; 
                 }, 1000);
             } else {
                 errorImage.style.display = 'block';
-                successImage.style.display = 'none';
-                
-                
-                wraithImage.style.filter = 'brightness(50%)'; 
+                successImage.style.display = 'none'; 
+                wraithImage.style.filter = 'brightness(50%)';
                 setTimeout(() => {
-                    wraithImage.style.filter = 'none';
+                    wraithImage.style.filter = 'none'; 
                 }, 1000);
             }
 
-            
             setTimeout(() => {
                 successImage.style.display = 'none';
                 errorImage.style.display = 'none';
@@ -192,3 +270,4 @@
     </script>
 </body>
 </html>
+
