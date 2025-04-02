@@ -131,14 +131,16 @@
             cursor: pointer;
             margin-top: 20px;
         }
-        .discord-link {
-            cursor: pointer;
+        .discord-link-container {
+            display: inline-flex;
+            align-items: center;
             margin-top: 20px;
         }
-        .discord-link img {
+        .discord-link-container img {
             width: 50px;
             height: auto;
             margin-left: 10px;
+            cursor: pointer;
         }
         .confirmation {
             display: none;
@@ -202,8 +204,8 @@
         <!-- View all codes text -->
         <div class="view-all-codes" onclick="toggleCodesList()">View All Codes</div>
 
-        <!-- Discord link (image) -->
-        <div class="discord-link" onclick="window.open('https://discord.gg/yfgWKrsZ93', '_blank')">
+        <!-- Discord link (image) next to Credits -->
+        <div class="discord-link-container" onclick="window.open('https://discord.gg/yfgWKrsZ93', '_blank')">
             <img src="discord.png" alt="Join our Discord!">
         </div>
 
